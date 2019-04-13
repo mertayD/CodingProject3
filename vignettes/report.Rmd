@@ -32,7 +32,6 @@ for(data.name in data.name.vec)
   data(list = data.name, package="ElemStatLearn")
   data.list[[data.name]] <- get(data.name)
 }
-str(data.list)
 is.binary <- ElemStatLearn::zip.train[,1] %in% c(0,1)
 data.list <- list(
   spam=list(
@@ -76,7 +75,7 @@ for(data.name in names(data.list))
   #print(one.data.set[1:nrow(one.data.set$feature.mat), -1])
   
   # variables for function
-  
+  if(data.name == 'ozone'){
   X.mat <- one.data.set$feature.mat
   y.vec <- one.data.set$label.vec
   fold.vec <- sample(rep(1:n.folds, l=nrow(X.mat)))
@@ -114,7 +113,8 @@ for(data.name in names(data.list))
                                                max.iterations=max.ite,
                                                step.size=0.05,
                                                n.hidden.units=30)
-
+        
+          }
          # pred.prob.list[test.fold] <- list(
          # earlyStopping=resultES$predict(one.data.set$feature.mat[is.test,]),
          # #L2regularized=resultREG$predict(one.data.set$feature.mat[is.test,]),
@@ -179,10 +179,10 @@ for(data.name in names(data.list))
   # Then  LMSquareLossEarlyStoppingCV LMSquareLossIterations for prostate and ozone)
 ```
 ```{r}
-ggplot(resultsList[5]$train.loss.vec)
-ggplot(resultsList[5]$validation.loss.vec)
-ggplot(resultsList[6]$train.loss.vec)
-ggplot(resultsList[6]$validation.loss.vec)
+# ggplot(resultsList[5]$train.loss.vec)
+# ggplot(resultsList[5]$validation.loss.vec)
+# ggplot(resultsList[6]$train.loss.vec)
+# ggplot(resultsList[6]$validation.loss.vec)
 ```
 
 ## Data set 1: spam
@@ -191,8 +191,8 @@ ggplot(resultsList[6]$validation.loss.vec)
 
 ```{r, result = "asis"}
 #print out and/or plot the matrix of loss values
-pander::pandoc.table(resultsList[1]$train.loss.mat)
-pander::pandoc.table(resultsList[2]$train.loss.mat)
+# pander::pandoc.table(resultsList[1]$train.loss.mat)
+# pander::pandoc.table(resultsList[2]$train.loss.mat)
 ```
 
 comment on difference between NN and baseline.
@@ -219,8 +219,8 @@ What are the optimal regularization parameters?
 
 ```{r, result = "asis"}
 #print out and/or plot the matrix.
-pander::pandoc.table(resultsList[3]$train.loss.mat)
-pander::pandoc.table(resultsList[4]$train.loss.mat)
+# pander::pandoc.table(resultsList[3]$train.loss.mat)
+# pander::pandoc.table(resultsList[4]$train.loss.mat)
 ```
 
 comment on difference between NN and baseline.
@@ -229,10 +229,10 @@ comment on difference between NN and baseline.
 
 ```{r}
 #plot the two loss functions.
-ggplot(resultsList[3]$train.loss.vec)
-ggplot(resultsList[3]$validation.loss.vec)
-ggplot(resultsList[4]$train.loss.vec)
-ggplot(resultsList[4]$validation.loss.vec)
+# ggplot(resultsList[3]$train.loss.vec)
+# ggplot(resultsList[3]$validation.loss.vec)
+# ggplot(resultsList[4]$train.loss.vec)
+# ggplot(resultsList[4]$validation.loss.vec)
 ```
 
 What are the optimal regularization parameters?
@@ -247,8 +247,8 @@ What are the optimal regularization parameters?
 
 ```{r, result = "asis"}
 #print out and/or plot the matrix.
-pander::pandoc.table(resultsList[5]$train.loss.mat)
-pander::pandoc.table(resultsList[6]$train.loss.mat)
+# pander::pandoc.table(resultsList[5]$train.loss.mat)
+# pander::pandoc.table(resultsList[6]$train.loss.mat)
 ```
 
 comment on difference between NN and baseline.
@@ -258,10 +258,10 @@ comment on difference between NN and baseline.
 ```{r}
 #plot the two loss functions.
 #plot the two loss functions.
-ggplot(resultsList[5]$train.loss.vec)
-ggplot(resultsList[5]$validation.loss.vec)
-ggplot(resultsList[6]$train.loss.vec)
-ggplot(resultsList[6]$validation.loss.vec)
+# ggplot(resultsList[5]$train.loss.vec)
+# ggplot(resultsList[5]$validation.loss.vec)
+# ggplot(resultsList[6]$train.loss.vec)
+# ggplot(resultsList[6]$validation.loss.vec)
 ```
 
 What are the optimal regularization parameters?
@@ -276,8 +276,8 @@ What are the optimal regularization parameters?
 
 ```{r, result = "asis"}
 #print out and/or plot the matrix.
-pander::pandoc.table(resultsList[7]$train.loss.mat)
-pander::pandoc.table(resultsList[8]$train.loss.mat)
+# pander::pandoc.table(resultsList[7]$train.loss.mat)
+# pander::pandoc.table(resultsList[8]$train.loss.mat)
 ```
 
 comment on difference between NN and baseline.
@@ -286,10 +286,10 @@ comment on difference between NN and baseline.
 
 ```{r}
 #plot the two loss functions.
-ggplot(resultsList[7]$train.loss.vec)
-ggplot(resultsList[7]$validation.loss.vec)
-ggplot(resultsList[8]$train.loss.vec)
-ggplot(resultsList[8]$validation.loss.vec)
+# ggplot(resultsList[7]$train.loss.vec)
+# ggplot(resultsList[7]$validation.loss.vec)
+# ggplot(resultsList[8]$train.loss.vec)
+# ggplot(resultsList[8]$validation.loss.vec)
 ```
 
 What are the optimal regularization parameters?
@@ -304,8 +304,8 @@ What are the optimal regularization parameters?
 
 ```{r, result = "asis"}
 #print out and/or plot the matrix.
-pander::pandoc.table(resultsList[9]$train.loss.mat)
-pander::pandoc.table(resultsList[10]$train.loss.mat)
+# pander::pandoc.table(resultsList[9]$train.loss.mat)
+# pander::pandoc.table(resultsList[10]$train.loss.mat)
 ```
 
 comment on difference between NN and baseline.
@@ -314,14 +314,22 @@ comment on difference between NN and baseline.
 
 ```{r}
 #plot the two loss functions.
-ggplot(resultsList[9]$train.loss.vec)
-ggplot(resultsList[9]$validation.loss.vec)
-ggplot(resultsList[10]$train.loss.vec)
-ggplot(resultsList[10]$validation.loss.vec)
+# ggplot(resultsList[9]$train.loss.vec)
+# ggplot(resultsList[9]$validation.loss.vec)
+# ggplot(resultsList[10]$train.loss.vec)
+# ggplot(resultsList[10]$validation.loss.vec)
 ```
 
 What are the optimal regularization parameters?
 
-```{r}
-# selected
-``
+# Loss
+$L(w,v) = \frac{1}2 \times [\Sigma^{n}_{1}[w^{t}S[V^{T}x_{i}] - y_{i}]^2]$
+
+# Gradient/Backprop
+1. $A = XV$
+2. $Z = S[A]$
+3. $b = ZW$
+4. $\delta^{w} = b - y$
+5. $\delta^{v} = Diag(\delta^{v}) \times S'[A] \times Diag(w)$
+6. $\nabla_{w}L(w,v) = (Z^{t} \delta^{w}) / n$
+7. $\nabla_{v}L(w,v) = (X^{t} \delta^{v}) / n$
