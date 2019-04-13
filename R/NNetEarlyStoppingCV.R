@@ -109,9 +109,9 @@ NNetEarlyStoppingCV <- function(
     w.vec=weight_vec,
     predict=function(testX.mat) {
       str(cbind(1, testX.mat))
-      A.mat <- testX.mat %*% v.with.intercept
+      A.mat <- testX.mat %*% best_model$V.mat
       Z.mat <- sigmoid(A.mat)
-      pred.vec <- Z.mat %*% w
+      pred.vec <- Z.mat %*% weight_vec
     return(pred.vec)
   })
 }
