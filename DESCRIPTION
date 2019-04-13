@@ -8,6 +8,6 @@ Description: Neural Nets Implementation
 License: GPL-3
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
-Suggests: knitr, rmarkdown
+Suggests: knitr, rmarkdown, usethis
 Imports: 
     ggplot2
