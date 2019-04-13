@@ -21,7 +21,7 @@ test_that("NNetEarlyStoppingCV computes the right demensions", {
 
 test_that("NNetEarlyStoppingCV throws errors", {
   data(ozone, package="ElemStatLearn")
-  X.mat <- as.matrix(ozone[,-1])
+  X.mat <- ozone[,-1]
   y.vec <- as.vector(ozone[,1])
   max.iterations <- 100
   step.size <- .5
