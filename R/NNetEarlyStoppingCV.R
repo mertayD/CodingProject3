@@ -103,5 +103,15 @@ NNetEarlyStoppingCV <- function(
   list(
     mean.validation.loss = mean.validation.loss.vec,
     mean.train.loss.vec =  mean.train.loss.vec,
-    selected.steps = selected.steps)
+    selected.steps = selected.steps
+    pred.mat=best_model$pred.mat,
+    V.mat= best_model$V.mat,
+    w.vec=weight_vec,
+    predict=function(testX.mat) {
+      str(cbind(1, testX.mat))
+      A.mat <- testX.mat %*% v.with.intercept
+      Z.mat <- sigmoid(A.mat)
+      pred.vec <- Z.mat %*% w
+    return(pred.vec)
+  })
 }
