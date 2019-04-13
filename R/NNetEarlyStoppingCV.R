@@ -55,6 +55,11 @@ NNetEarlyStoppingCV <- function(
   {
     stop("Output matrix has unexpected dimensions")
   }
+  if(is.null(fold.vec))
+  {
+    fold.vec <- sample(rep(1:4, l=nrow(X.mat)))
+  }
+  is.binary <- all(y.vec %in% c(1, -1))
   
   train.loss.mat <- matrix(,max.iterations, n.folds)
   validation.loss.mat <- matrix(,max.iterations, n.folds)
@@ -76,11 +81,24 @@ NNetEarlyStoppingCV <- function(
       if(identical(prediction.set.name, "train")){
         W <- NNetIterations(X.train, Y.train, max.iterations, step.size, n.hidden.units, fold.vec)
         pred.mat <- W$pred.mat
-        train.loss.mat[,fold.i] = colMeans((pred.mat - Y.train)^2)
+        if(is.binary)
+        {
+          loss.mat <-ifelse(pred.mat>0.5, 1, 0) != train_labels
+          train.loss.mat[,fold.i] <- colMeans(loss.mat)
+        }
+        else
+        {
+          train.loss.mat[,fold.i] = colMeans((pred.mat - Y.train)^2)
+        }
       }
       else{
         W <- NNetIterations(X.valid, Y.valid, max.iterations, step.size, n.hidden.units, fold.vec)
         pred.mat <- W$pred.mat
+        if(is.binary)
+        {
+          loss.mat <-ifelse(pred.mat>0.5, 1, 0) != train_labels
+          validation.loss.mat[,fold.i] = colMeans(loss.mat)
+        }
         validation.loss.mat[,fold.i] = colMeans((pred.mat - Y.valid)^2)
       }
     }

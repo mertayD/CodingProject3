@@ -22,7 +22,6 @@ usethis::use_package("CodingProject3")
 usethis::use_package("ggplot2")
 data.name.vec <- c(
   "spam",
-  "SAheart",
   "zip.train",
   "prostate",
   "ozone")
