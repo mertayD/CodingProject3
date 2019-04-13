@@ -2,7 +2,7 @@ Package: CodingProject3
 Type: Package
 Title: coding project Neural Nets
 Version: 2019.02.19
-Author: Mertay Dayanc, Kaitlyn Grubb, 
+Author: Mertay Dayanc, Kaitlyn Grubb, Taylor, Yihan
 Maintainer: Mertay Dayanc <md2289@nau.edu>
 Description: Neural Nets Implementation
 License: GPL-3
@@ -10,4 +10,5 @@ RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 Suggests: knitr, rmarkdown, usethis
 Imports: 
-    ggplot2
+    ggplot2,
+    CodingProject3
