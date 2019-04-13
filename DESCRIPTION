@@ -9,3 +9,6 @@ License: GPL-3
 RoxygenNote: 6.1.1
 VignetteBuilder: Knitr
 Suggests: knitr, rmarkdown
+Imports: 
+    CodingProject3,
+    ggplot2

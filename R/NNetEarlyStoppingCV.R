@@ -23,18 +23,18 @@
 #' @examples
 #'    library(CodingProject3)
 #'
-#'    data(SAheart , package = "ElemStatLearn")
-#'    X.mat<-SAheart [1:50,-9]
-#'    y.vec<-SAheart [1:50, 9]
+#'    data(ozone , package = "ElemStatLearn")
+#'    X.mat<-as.matrix(ozone [1:50,-1])
+#'    y.vec<-as.matrix(ozone [1:50, 1])
 #'    max.iterations <- 100
+#'    fold.vec <- sample(rep(1:4, l=nrow(X.mat)))
 #'    step.size <- .5
 #'    n.hidden.units <- 2
-#'    
-#'    result <- NNetEarlyStoppingCV(X.mat, y.vec, fold.vec, max.iterations, n.hidden.units)
+#'    result <- NNetEarlyStoppingCV(X.mat, y.vec, fold.vec, max.iterations, n.hidden.units,5)
 NNetEarlyStoppingCV <- function(
   X.mat,
   y.vec,
-  fold.vec=sample(rep(1:n.folds), length(y.vec)),
+  fold.vec=sample(rep(1:4, l=nrow(X.mat))),
   max.iterations,
   step.size,
   n.hidden.units,
@@ -54,10 +54,6 @@ NNetEarlyStoppingCV <- function(
   if(length(y.vec) <= 0)  
   {
     stop("Output matrix has unexpected dimensions")
-  }
-  
-  if(is.null(fold.vec)) {
-    fold.vec <- sample(rep(1:4, l=nrow(X.mat)))
   }
   
   train.loss.mat <- matrix(,max.iterations, n.folds)
@@ -87,9 +83,10 @@ NNetEarlyStoppingCV <- function(
       }
       
       pred.mat <- W$pred.mat
-      
+      print(pred.mat)
+
       if(identical(prediction.set.name, "train")){
-        train.loss.mat[,fold.i] = colMeans((pred.mat - Y.valid)^2)
+        train.loss.mat[,fold.i] = colMeans((pred.mat - Y.train)^2)
       }
       else{
         pred.valid.mat <- W$predict(X.valid)

@@ -8,16 +8,6 @@ NNetIterations(X.mat, y.vec, max.iterations, step.size, n.hidden.units,
   is.train)
 }
 \arguments{
-\item{X.mat}{}
-
-\item{y.vec}{}
-
-\item{max.iterations}{}
-
-\item{step.size}{}
-
-\item{n.hidden.units}{}
-
 \item{is.train}{}
 }
 \description{
@@ -29,9 +19,9 @@ data(ozone, package="ElemStatLearn")
 X.mat <- as.matrix(ozone[,-1])
 y.vec <- as.vector(ozone[,1])
 n.hidden.units <- 5
-max.iterations <- 50
+max.iterations <- 100
 is.train <- TRUE
-step.size <- 0.01
+step.size <- 0.1
 res <- NNetIterations( X.mat, y.vec, max.iterations, step.size, n.hidden.units, is.train)
 
 }
