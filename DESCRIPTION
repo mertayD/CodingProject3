@@ -7,7 +7,7 @@ Maintainer: Mertay Dayanc <md2289@nau.edu>
 Description: Neural Nets Implementation
 License: GPL-3
 RoxygenNote: 6.1.1
-VignetteBuilder: Knitr
+VignetteBuilder: knitr
 Suggests: knitr, rmarkdown
 Imports: 
     ggplot2
