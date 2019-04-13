@@ -24,13 +24,13 @@
 #'    library(CodingProject3)
 #'
 #'    data(ozone , package = "ElemStatLearn")
-#'    X.mat<-as.matrix(ozone [1:50,-1])
-#'    y.vec<-as.matrix(ozone [1:50, 1])
+#'    X.mat<-as.matrix(ozone [,-1])
+#'    y.vec<-as.numeric(ozone [, 1])
 #'    max.iterations <- 100
 #'    fold.vec <- sample(rep(1:4, l=nrow(X.mat)))
-#'    step.size <- .5
+#'    step.size <- 0.1
 #'    n.hidden.units <- 2
-#'    result <- NNetEarlyStoppingCV(X.mat, y.vec, fold.vec, max.iterations, n.hidden.units,5)
+#'    result <- NNetEarlyStoppingCV(X.mat, y.vec, fold.vec, max.iterations, step.size, n.hidden.units)
 NNetEarlyStoppingCV <- function(
   X.mat,
   y.vec,
@@ -61,7 +61,7 @@ NNetEarlyStoppingCV <- function(
   # n.folds <- max(fold.vec)
   for(fold.i in 1:n.folds)
   {
-    fold_data <- which(fold.vec == fold.i)
+    fold_data <- which(fold.vec %in% c(fold.i))
     
     X.train <- X.mat[-fold_data ,]
     X.valid <- X.mat[fold_data ,]
@@ -72,38 +72,29 @@ NNetEarlyStoppingCV <- function(
     # n_rows_validation_set <- nrow(validation_set)
     # n_rows_train_set <- nrow(train_set)
     
-    W <- NNetIterations(X.train, Y.train, max.iterations, step.size, n.hidden.units, fold.vec)
-    
     for(prediction.set.name in c("train", "validation")){
       if(identical(prediction.set.name, "train")){
-        to.be.predicted <- X.train
-      }
-      else{
-        to.be.predicted <- X.valid
-      }
-      
-      pred.mat <- W$pred.mat
-      print(pred.mat)
-
-      if(identical(prediction.set.name, "train")){
+        W <- NNetIterations(X.train, Y.train, max.iterations, step.size, n.hidden.units, fold.vec)
+        pred.mat <- W$pred.mat
         train.loss.mat[,fold.i] = colMeans((pred.mat - Y.train)^2)
       }
       else{
-        pred.valid.mat <- W$predict(X.valid)
-        validation.loss.mat[,fold.i] = colMeans((pred.valid.mat - Y.valid)^2)
+        W <- NNetIterations(X.valid, Y.valid, max.iterations, step.size, n.hidden.units, fold.vec)
+        pred.mat <- W$pred.mat
+        validation.loss.mat[,fold.i] = colMeans((pred.mat - Y.valid)^2)
       }
     }
   }
   mean.validation.loss.vec <- rowMeans(validation.loss.mat)
   mean.train.loss.vec <- rowMeans(train.loss.mat)
-  selected.steps = which(mean.validation.loss.vec == min(mean.validation.loss.vec), arr.ind = TRUE)
+  selected.steps = which.min(mean.validation.loss.vec)
   best_model <- NNetIterations(X.train,Y.train, max.iterations, step.size, n.hidden.units, fold.vec)
   weight_vec <- best_model$pred.mat[,selected.steps]
   
   list(
     mean.validation.loss = mean.validation.loss.vec,
     mean.train.loss.vec =  mean.train.loss.vec,
-    selected.steps = selected.steps
+    selected.steps = selected.steps,
     pred.mat=best_model$pred.mat,
     V.mat= best_model$V.mat,
     w.vec=weight_vec,

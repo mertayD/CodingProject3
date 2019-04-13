@@ -18,7 +18,7 @@
 #' n.hidden.units <- 5
 #' max.iterations <- 100
 #' is.train <- TRUE
-#' step.size <- 0.1
+#' step.size <- 1
 #' res <- NNetIterations( X.mat, y.vec, max.iterations, step.size, n.hidden.units, is.train)
 #'
 NNetIterations <- function(

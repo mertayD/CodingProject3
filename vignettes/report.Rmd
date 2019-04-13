@@ -77,10 +77,11 @@ for(data.name in names(data.list))
   #print(one.data.set[1:nrow(one.data.set$feature.mat), -1])
   
   # variables for function
+  
   X.mat <- one.data.set$feature.mat
   y.vec <- one.data.set$label.vec
   fold.vec <- sample(rep(1:n.folds, l=nrow(X.mat)))
-  max.ite <- 30
+  max.ite <- 50
   result.mat.list <- list()
   
   for(test.fold in 1:length(unique(fold.vec)))
@@ -99,9 +100,6 @@ for(data.name in names(data.list))
     
     fold.vec.train <- sample(rep(1:n.folds, l=nrow(X.train)))
     
-    if(data.name == "prostate" | data.name == "ozone")
-    {  
-        print(one.data.set$label.vec)
        #For each train/test split, to show that your algorithm is actually learning something                  non-trivial from the inputs/features, compute a baseline predictor that ignores the                     inputs/features.
       
        #Regression: the mean of the training labels/outputs.
@@ -110,11 +108,12 @@ for(data.name in names(data.list))
     
        # print(data.name)
        # print(data.list[[data.name]])
-    
+       fold.v <- sample(rep(1:4, l=nrow(X.train)))
        resultES <- CodingProject3::NNetEarlyStoppingCV(X.train,
                                                y.train,
+                                               fold.v,
                                                max.iterations=max.ite,
-                                               step.size=0.5,
+                                               step.size=0.05,
                                                n.hidden.units=30)
 
          # pred.prob.list[test.fold] <- list(
@@ -179,7 +178,6 @@ for(data.name in names(data.list))
   
   # List is (LMLogisticLossEarlyStoppingCV, LMLogisticLossIterations for spam SAheart and then train, 
   # Then  LMSquareLossEarlyStoppingCV LMSquareLossIterations for prostate and ozone)
-}
 ```
 ```{r}
 ggplot(resultsList[5]$train.loss.vec)
@@ -204,8 +202,8 @@ comment on difference between NN and baseline.
 
 ```{r}
 #plot the two loss functions.
-ggplot(as.data.frame(resultES$mean.train.loss.vec))
-ggplot(as.data.frame(resultES$mean.validation.loss))
+plot(resultES$mean.train.loss.vec)
+plot(resultES$mean.validation.loss)
 # ggplot(resultsList[2]$train.loss.vec)
 # ggplot(resultsList[2]$validation.loss.vec)
 ```

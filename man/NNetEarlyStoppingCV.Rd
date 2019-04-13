@@ -37,11 +37,11 @@ NNetEarlyStoppingCV function
    library(CodingProject3)
 
    data(ozone , package = "ElemStatLearn")
-   X.mat<-as.matrix(ozone [1:50,-1])
-   y.vec<-as.matrix(ozone [1:50, 1])
+   X.mat<-as.matrix(ozone [,-1])
+   y.vec<-as.numeric(ozone [, 1])
    max.iterations <- 100
    fold.vec <- sample(rep(1:4, l=nrow(X.mat)))
-   step.size <- .5
+   step.size <- 0.1
    n.hidden.units <- 2
-   result <- NNetEarlyStoppingCV(X.mat, y.vec, fold.vec, max.iterations, n.hidden.units,5)
+   result <- NNetEarlyStoppingCV(X.mat, y.vec, fold.vec, max.iterations, step.size, n.hidden.units)
 }
